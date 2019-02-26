@@ -5,6 +5,7 @@ using UnityEngine;
 public class Manager : MonoBehaviour
 {
     public static Manager instance;
+    bool active = false;
     public Planet[] planets;
     public GameObject comet, asteroid;
     public Camera camera;
@@ -35,18 +36,21 @@ public class Manager : MonoBehaviour
 
     void Update()
     {
-        if (nextSpawnIncrease < Time.time)
+        if (active)
         {
-            nextSpawnIncrease = Time.time + spawnIncreaseRate;
-            spawnRate *= 1.01f;
-        }
-        if (Random.value < spawnRate)
-        {
-            spaceRocks.Add(Instantiate(comet, new Vector3(Random.value - 0.5f, Random.value - 0.5f, 0).normalized * 10f, Quaternion.identity));
-        }
-        if (Random.value < spawnRate)
-        {
-            spaceRocks.Add(Instantiate(asteroid, new Vector3(Random.value - 0.5f, Random.value - 0.5f, 0).normalized * 10f, Quaternion.identity));
+            if (nextSpawnIncrease < Time.time)
+            {
+                nextSpawnIncrease = Time.time + spawnIncreaseRate;
+                spawnRate *= 1.01f;
+            }
+            if (Random.value < spawnRate)
+            {
+                spaceRocks.Add(Instantiate(comet, new Vector3(Random.value - 0.5f, Random.value - 0.5f, 0).normalized * 10f, Quaternion.identity));
+            }
+            if (Random.value < spawnRate)
+            {
+                spaceRocks.Add(Instantiate(asteroid, new Vector3(Random.value - 0.5f, Random.value - 0.5f, 0).normalized * 10f, Quaternion.identity));
+            }
         }
         if (Input.GetMouseButtonDown(0))
         {
