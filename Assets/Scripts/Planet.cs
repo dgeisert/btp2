@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class Planet : MonoBehaviour
 {
     public MeshRenderer clouds, ocean, land;
-    public Material red, yellow, blue, green, white, black;
+    public Material red, yellow, blue, green, white, black, grey;
     public Image lifeTrack, tempTrack, waterTrack, nutrientTrack;
     public float temp, water, nutrient, life;
     public GameObject lifeWarning;
@@ -22,8 +22,10 @@ public class Planet : MonoBehaviour
     {
         clouds.gameObject.SetActive(life > 0.5f);
         float lifeAdd = 0;
+        tempTrack.color = Manager.instance.wrongTemp;
         if (temp > 0.25f && temp < 0.75f)
         {
+            tempTrack.color = Manager.instance.rightTemp;
             if (water > 0.5f)
             {
                 clouds.material = white;
@@ -31,8 +33,8 @@ public class Planet : MonoBehaviour
             }
             else
             {
-                clouds.material = yellow;
-                ocean.material = yellow;
+                clouds.material = grey;
+                ocean.material = grey;
             }
             if (nutrient > 0.5f)
             {
@@ -40,7 +42,7 @@ public class Planet : MonoBehaviour
             }
             else
             {
-                land.material = yellow;
+                land.material = grey;
             }
             lifeAdd += water * nutrient / 5;
         }
@@ -52,12 +54,15 @@ public class Planet : MonoBehaviour
             }
             else
             {
-                water -= 0.02f * checkRate;
+                if (Manager.instance.active)
+                {
+                    water -= 0.02f * checkRate;
+                }
             }
             if (water > 0.5f)
             {
                 clouds.material = white;
-                ocean.material = yellow;
+                ocean.material = grey;
             }
             else
             {
@@ -109,13 +114,16 @@ public class Planet : MonoBehaviour
                 lifeWarning.SetActive(false);
                 lifeWarning.SetActive(true);
             }
-            life += lifeAdd * checkRate;
+            if (Manager.instance.active)
+            {
+                life += lifeAdd * checkRate;
+            }
         }
         lifeTrack.fillAmount = life;
         tempTrack.fillAmount = temp;
         waterTrack.fillAmount = water;
         nutrientTrack.fillAmount = nutrient;
-        if (life >= 1)
+        if (life >= 1 && Manager.instance.active)
         {
             Manager.instance.GameOver();
         }
@@ -123,7 +131,7 @@ public class Planet : MonoBehaviour
 
     public void Click()
     {
-        if (nutrient >= 0.01f)
+        if (nutrient >= 0.01f && Manager.instance.active)
         {
             nutrient -= 0.01f;
         }

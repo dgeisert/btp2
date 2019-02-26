@@ -5,7 +5,7 @@ using UnityEngine;
 public class Manager : MonoBehaviour
 {
     public static Manager instance;
-    bool active = false;
+    public bool active = false;
     public Planet[] planets;
     public GameObject comet, asteroid;
     public Camera camera;
@@ -17,9 +17,15 @@ public class Manager : MonoBehaviour
     float[][] planetSettings;
     List<GameObject> spaceRocks = new List<GameObject>();
     bool init = false;
+    int panel = 0;
+    public GameObject[] introPanels;
+    public GameObject back, next, start;
+    public TMPro.TextMeshPro tempText, scoreText, gameOverText;
+    public Color wrongTemp, rightTemp;
 
     void Start()
     {
+        SetPanel(panel);
         planetSettings = new float[7][];
         for (int i = 0; i < planets.Length; i++)
         {
@@ -90,6 +96,7 @@ public class Manager : MonoBehaviour
             }
             tempBase += 0.1f;
             glow.startSpeed = tempBase * 3 + 1;
+            tempText.text = Mathf.Floor(2500 + tempBase * 1000).ToString() + "K";
         }
     }
     public void LowerHeat()
@@ -102,6 +109,54 @@ public class Manager : MonoBehaviour
             }
             tempBase -= 0.1f;
             glow.startSpeed = tempBase * 3 + 1;
+            tempText.text = Mathf.Floor(2500 + tempBase * 1000).ToString() + "K";
+        }
+    }
+
+    public void StartGame()
+    {
+        foreach (GameObject go in introPanels)
+        {
+            go.SetActive(false);
+        }
+        start.SetActive(false);
+        next.SetActive(false);
+        back.SetActive(false);
+        gameOverText.gameObject.SetActive(false);
+        scoreText.gameObject.SetActive(false);
+        panel = 0;
+        active = true;
+        Reset();
+    }
+    public void Next()
+    {
+        panel++;
+        SetPanel(panel);
+    }
+    public void Back()
+    {
+        panel--;
+        SetPanel(panel);
+    }
+    void SetPanel(int i)
+    {
+        foreach (GameObject go in introPanels)
+        {
+            go.SetActive(false);
+        }
+        back.SetActive(i > 0);
+        next.SetActive(i != 3);
+        if (i < 0)
+        {
+            gameOverText.gameObject.SetActive(true);
+            scoreText.gameObject.SetActive(true);
+            scoreText.text = Mathf.Floor(Time.time - timer).ToString() + " seconds";
+        }
+        else
+        {
+            gameOverText.gameObject.SetActive(false);
+            scoreText.gameObject.SetActive(false);
+            introPanels[i].SetActive(true);
         }
     }
     void Reset()
@@ -133,7 +188,10 @@ public class Manager : MonoBehaviour
 
     public void GameOver()
     {
+        panel = -1;
         GetComponent<AudioSource>().Play();
-        Reset();
+        start.SetActive(true);
+        SetPanel(panel);
+        active = false;
     }
 }

@@ -4,15 +4,32 @@ using UnityEngine;
 
 public class Clickable : MonoBehaviour
 {
+    public Animator anim;
     public void Click()
     {
-        if (name == "Hotter")
+        if (anim)
         {
-            Manager.instance.RaiseHeat();
+            anim.Play("Click");
         }
-        else
+        switch (name)
         {
-            Manager.instance.LowerHeat();
+            case "Hotter":
+                Manager.instance.RaiseHeat();
+                break;
+            case "Cooler":
+                Manager.instance.LowerHeat();
+                break;
+            case "Start":
+                Manager.instance.StartGame();
+                break;
+            case "Next":
+                Manager.instance.Next();
+                break;
+            case "Back":
+                Manager.instance.Back();
+                break;
+            default:
+                break;
         }
     }
 }
