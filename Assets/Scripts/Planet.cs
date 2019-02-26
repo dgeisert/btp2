@@ -123,6 +123,9 @@ public class Planet : MonoBehaviour
 
     public void Click()
     {
-        nutrient -= 0.01f;
+        if (nutrient >= 0.01f)
+        {
+            nutrient -= 0.01f;
+        }
     }
 }
