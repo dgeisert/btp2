@@ -94,6 +94,14 @@ public class Manager : MonoBehaviour
                 }
             }
         }
+        if (Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            LowerHeat();
+        }
+        if (Input.GetKeyDown(KeyCode.UpArrow))
+        {
+            RaiseHeat();
+        }
     }
     public void RaiseHeat()
     {
@@ -181,7 +189,7 @@ public class Manager : MonoBehaviour
         nextSpawnIncrease = Time.time + spawnIncreaseRate;
         spawnRate = 0.01f;
         timer = Time.time;
-        tempBase = 0;
+        tempBase = -0.1f;
         for (int i = 0; i < planets.Length; i++)
         {
             planets[i].water = planetSettings[i][0];
@@ -191,6 +199,7 @@ public class Manager : MonoBehaviour
         }
         if (init)
         {
+            RaiseHeat();
             glow.startSpeed = tempBase * 3 + 1;
         }
     }
