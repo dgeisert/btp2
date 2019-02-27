@@ -58,12 +58,12 @@ public class Manager : MonoBehaviour
                 spaceRocks.Add(Instantiate(asteroid, new Vector3(Random.value - 0.5f, Random.value - 0.5f, 0).normalized * 10f, Quaternion.identity));
             }
         }
-        if (Input.GetMouseButtonDown(0))
-        {
-            RaycastHit hit;
-            Ray ray = camera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+        Ray ray = camera.ScreenPointToRay(Input.mousePosition);
 
-            if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit))
+        {
+            if (Input.GetMouseButtonDown(0))
             {
                 Planet p = hit.transform.GetComponent<Planet>();
                 if (p)
@@ -84,11 +84,20 @@ public class Manager : MonoBehaviour
                     return;
                 }
             }
+            else
+            {
+                Clickable c = hit.transform.GetComponent<Clickable>();
+                if (c)
+                {
+                    c.Hover();
+                    return;
+                }
+            }
         }
     }
     public void RaiseHeat()
     {
-        if (tempBase < 0.3f)
+        if (tempBase < 0.25f)
         {
             foreach (Planet p in planets)
             {
@@ -101,7 +110,7 @@ public class Manager : MonoBehaviour
     }
     public void LowerHeat()
     {
-        if (tempBase > -0.2f)
+        if (tempBase > -0.15f)
         {
             foreach (Planet p in planets)
             {
