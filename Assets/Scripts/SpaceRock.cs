@@ -8,7 +8,7 @@ public class SpaceRock : MonoBehaviour
     public bool is_comet = true;
     public float speed = 100;
     public Rigidbody rb;
-    float step = 0.1f;
+    public float step = 0.1f;
 
     void Update()
     {
@@ -38,7 +38,7 @@ public class SpaceRock : MonoBehaviour
                     p.nutrient += step;
                 }
             }
-            if (!is_comet)
+            else
             {
                 if (p.water + step > 1)
                 {

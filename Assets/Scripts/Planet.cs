@@ -129,9 +129,16 @@ public class Planet : MonoBehaviour
         }
     }
 
+    public void Hold()
+    {
+        if (nutrient > 0 && Manager.instance.active)
+        {
+            nutrient -= 0.03f * Time.deltaTime;
+        }
+    }
     public void Click()
     {
-        if (nutrient >= 0.01f && Manager.instance.active)
+        if (nutrient > 0 && Manager.instance.active)
         {
             nutrient -= 0.01f;
         }

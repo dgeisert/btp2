@@ -21,7 +21,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 1
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &117001195718183598
 Transform:
@@ -1072,6 +1072,7 @@ MonoBehaviour:
   is_comet: 1
   speed: 0.1
   rb: {fileID: 837639187}
+  step: 0.1
 --- !u!54 &837639187
 Rigidbody:
   m_ObjectHideFlags: 0

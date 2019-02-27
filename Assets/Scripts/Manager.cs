@@ -63,6 +63,14 @@ public class Manager : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit))
         {
+            if (Input.GetMouseButton(0))
+            {
+                Planet p = hit.transform.GetComponent<Planet>();
+                if (p)
+                {
+                    p.Hold();
+                }
+            }
             if (Input.GetMouseButtonDown(0))
             {
                 Planet p = hit.transform.GetComponent<Planet>();
